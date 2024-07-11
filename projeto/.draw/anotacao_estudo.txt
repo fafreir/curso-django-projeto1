@@ -1,0 +1,303 @@
+- Instalar o ambiente virtual
+python -m venv venv (Windows)
+python3 -m venv venv (Linux)
+
+- Ativar o ambiente virtual
+.\venv\Scripts\activate.bat  (Windows)
+source venv\bin\activate (Linux)
+
+- Para desativar o ambiente virtual
+deactivate
+------------------------------------------
+
+- Verificar os pacotes instalados
+pip freeze
+
+- Gerar o relatório dos pacotes
+pip freeze > requirements.txt 
+
+- Instalar o requirements
+pip install -r requirements.txt
+
+-----------------------------------
+
+- Atualize o setuptools e o wheel
+python -m pip install pip setuptools wheel --upgrade
+
+-----------------------------------
+
+- Habilite o ambiente virtual
+- Instale o Django
+pip install django
+
+- Saber a versão do django
+django-admin --version
+
+- Saber os comandos
+django-admin --help
+
+- Criando o projeto inicial
+django-admin startproject projeto .
+
+- Executar o servidor
+python manage.py runserver
+
+- Migração 
+python manage.py migrate
+-----------------------------------
+
+Configurar o git
+
+git config --global user.name "Fabrício Adriel Coelho Freire"
+git config --global user.email "fabricioadriel@yahoo.com.br"
+git config --global init.defaultBranch main
+git init
+- Se quiser apagar a pasta do git
+rm -Rf .git
+
+- Gerar uma chave ssh
+ssh -keygen
+
+git remote add origin link
+git remote add origin https://github.com/fafreir/curso-django-projeto1.git
+git push --set-upstream origin main
+git push -u origin fafreir
+
+- Alguns comandos
+git status
+git add * 
+git commit -m "Mensagem"
+git push
+
+Link: https://github.com/luizomf/curso-django-projeto1
+
+-----------------------------------
+
+django-admin x manage
+- A diferença que o manage.py, busca dos settings. Porém os comandos são os mesmos.
+- O manage.py configura a variavel de ambiente DJANGO_SETTINGS_MODULE apontando para o arquivo settings.py do seu projeto Django.
+-----------------------------------
+URL
+- é onde será configurado a rota
+
+VIEW
+- A URL irá buscar na view, e nessa função terá o argumento o request
+- No caso o cliente, faz a request
+- irá retornar uma HttpResponse
+- Que o servidor responde
+
+LINKS:
+Codigo Status: https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status
+Metodos Requisição: https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Methods
+
+---------------------------------
+CRIANDO APP
+python manage.py startapp recipes
+
+---------------------------------
+
+---------------------------------
+INCLUDE
+include - é herdar ou incluir a url 
+
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls), # dominio.com/
+    path('', include('recipes.urls')), # dominio.com/
+    path('recipes', include('recipes.urls')), # dominio.com/recipes/
+]
+---------------------------------
+
+---------------------------------
+RENDER - irá renderizar uma pagina html, vai buscar na pasta templates.
+
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'home.html')
+
+---------------------------------
+
+TEMPLATE DOES NOT EXIST
+
+- Necessário atualizar no projeto, o arquivo settings.
+- Inserir o app em INSTALLED_APPS, o nome do app
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'recipes',
+]
+
+
+INSERIR O TEMPLATE EM TEMPLATE, EM SETTINGS
+- Irá seguir a ordem do Template
+- Template, em dirs
+- BASEDIR, é referente a raiz
+
+TEMPLATES = [
+    {
+	'DIRS': [
+            BASE_DIR / 'base_templates',
+        ],
+    }
+
+---------------------------------
+
+NAMESPACE 
+- Quando possuem arquivos com o mesmo nome, pode dar conflito
+- Para corrigir isso, em templates coloca o nome do app.
+- nome_app/arquivo ou global/arquivo
+
+def home(request):
+    return render(request, 'recipes/home.html')
+---------------------------------
+
+PRINTAR
+
+{{  }} é o mesmo que um print
+<h1>Recipes {{ name }} </h1>
+
+-----------------------------------
+
+EXECUTAR COMANDO
+
+{% include 'caminho/nome.extensão'%}
+
+{% include 'recipes/partials/recipe.html' %}
+-----------------------------------
+
+ARQUIVOS ESTATICOS
+- Documentação: https://docs.djangoproject.com/pt-br/3.2/howto/static-files/
+- No settings, precisa ter no "INSTALLED_APPS", o "'django.contrib.staticfiles'"
+- Ainda em settings, STATIC_URL = 'static/'
+- Se alterar o STATIC_URL, vai aparecer com o nome alterado no caminho ao procurar no html
+- Por padrão, vai buscar na pasta 'static'
+
+NO ARQUIVO QUE VOU CARREGAR, NO TOPO INSIRO
+{% load static %}
+
+ONDE INSERIR O CSS
+- Utilizo {% static 'caminho/nome.extensao' %}
+<link rel="stylesheet" href="{% static 'recipes/css/styles.css' %}">
+
+INSERIR CSS, SEM SER APP
+- No settings, inserir o STATICFILES_DIRS
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'base_static',
+]
+
+JUNTAR TODOS OS CSS
+- Configurar no settings
+STATIC_ROOT = BASE_DIR/'static'
+
+- Rodar o comando
+python manage.py collectstatic
+==================================================
+
+URL
+- Documentação: https://docs.djangoproject.com/pt-br/3.2/topics/http/urls/
+- Path converters: int, str, slug, uuid
+- Podemos utilizar para forçar <path_converter:id>
+
+urlpatterns = [
+    path('', views.home),
+    path('recipes/<int:id>/', views.recipe),
+]
+
+==================================================
+
+DEMARCAR CONTEUDO
+- Utilizo o block, porém antes é necessário utilizar o extends
+{% block nome_conteudo %} {% endblock nome_opcional %}
+
+ONDE UTILIZAR O CONTEUDO DEMARCADO
+- Utiliza o extends, para herdar e depois demarco o bloco
+{% extends 'global/base.html' %}
+
+==================================================
+
+TAGS
+- Documentação: https://docs.djangoproject.com/pt-br/3.2/topics/templates/
+                https://docs.djangoproject.com/pt-br/3.2/ref/templates/language/
+- Documentação: https://docs.djangoproject.com/pt-br/3.2/ref/templates/builtins/#ref-templates-builtins-tags
+
+==================================================
+
+NAME
+name = para formar url dinamicamente, será para nome unico, será inserido em urls, do aplicativo.
+
+Temos 2 maneiras: Sem o app_name e Com o app_name
+
+NAME - SEM O APPNAME
+Observação: Utilizar dessa maneira, se não utilizar appname
+
+urlpatterns = [
+    path('', views.home, name = "recipes-home"),
+    path('recipes/<int:id>/', views.recipe, name="recipes-recipe"),
+]
+
+Depois onde vou utilizar utilizar {% url 'name' %}
+<a class="main-logo" href="{% url 'recipes-home' %}">
+
+NAME - COM APPNAME
+- Em urls, do aplicativo, cria a variavel app_name
+app_name = 'recipes'
+
+Depois onde vou utilizar utilizar {% url 'appname:name' %}
+<a href="{% url 'recipes:recipe'  recipe.id %}">
+
+==================================================
+
+MODELS
+
+- Criar a classe com o nome da tabela, herdar models.Model
+class Category(models.Model):
+
+CHAVE ESTRANGEIRA 
+- models.ForeinKey
+- on_delete=models.SET_NULL, null=True
+
+category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True)
+
+- Para gerar as migrações
+python manage.py migrate 
+
+- Para aplicar/migrar ou gerar os arquivos das migrações
+python manage.py makemigrations
+
+DOCUMENTAÇÃO (MODEL FIELD): https://docs.djangoproject.com/pt-br/3.2/ref/models/fields/
+
+auto_now -> atualiza a data toda vez que o objeto é modificado
+auto_now_add -> atualiza a data apenas na criação do objeto
+
+================================
+
+CRIAR USUARIO ADMIN
+python manage.py createsuperuser
+
+APARECER OS MODELOS NO ADMIN
+- Acesso no projeto o arquivo admin.py
+- importar o models
+- Criar uma classe, herdar admin.ModelAdmin
+- registrar modelo admin(modelo, classe)
+
+from django.contrib import admin
+from .models import Category
+
+class CategoryAdmin(admin.ModelAdmin):
+    ...
+
+
+admin.site.register(Category, CategoryAdmin)
+
+TEMOS 2 MANEIRAS DE REGISTRAR
+1) admin.site.register(modelo, classeadmin) 
+2) @admin.register(modelo)
