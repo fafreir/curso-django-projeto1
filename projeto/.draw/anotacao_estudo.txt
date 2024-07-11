@@ -299,5 +299,9 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 TEMOS 2 MANEIRAS DE REGISTRAR
-1) admin.site.register(modelo, classeadmin) 
-2) @admin.register(modelo)
+1) admin.site.register(model, classeadmin) 
+2) @admin.register(model)
+
+- Se o migrate não funcionar, apresentar erro "no such table":
+- https://stackoverflow.com/questions/25771755/django-operationalerror-no-such-table
+python manage.py migrate --run-syncdb
