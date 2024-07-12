@@ -284,7 +284,7 @@ CRIAR USUARIO ADMIN
 python manage.py createsuperuser
 
 APARECER OS MODELOS NO ADMIN
-- Acesso no projeto o arquivo admin.py
+- Acessar na aplicação/app o arquivo admin.py
 - importar o models
 - Criar uma classe, herdar admin.ModelAdmin
 - registrar modelo admin(modelo, classe)
@@ -305,3 +305,30 @@ TEMOS 2 MANEIRAS DE REGISTRAR
 - Se o migrate não funcionar, apresentar erro "no such table":
 - https://stackoverflow.com/questions/25771755/django-operationalerror-no-such-table
 python manage.py migrate --run-syncdb
+
+---------------------------------
+PARA IMAGENS NO BANCO DE DADOS
+- Iremos informar um local 
+- Vamos no settings.py do projeto e adicione
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+PROBLEMAS PARA VISUALIZAR IMAGENS
+- Para isso é necessário configurar a URL do projeto
+- Comece importando static e settings
+- No static, vamos configurar o arquivo estatico
+- No settings na url, toda vez que for ter que algo do settings 
+- Não é recomendado acessar diretamente o settings
+
+from django.conf.urls.static import static
+from django.conf import settings
+
+- concatenar a urlpatterns, com o static, buscandos dos settings o MEDIA_URL, e o document root, os settings de MEDIA_ROOT
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+- Faça o mesmo com os arquivos estaticos
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+---------------------------------
+
+
