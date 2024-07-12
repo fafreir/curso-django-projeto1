@@ -332,6 +332,10 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 ---------------------------------
 
 SHELL
+
+Documentação: https://docs.djangoproject.com/pt-br/3.2/ref/models/querysets/
+
+- Comando para acessar shell
 python manage.py shell
 
 - Importar o models
