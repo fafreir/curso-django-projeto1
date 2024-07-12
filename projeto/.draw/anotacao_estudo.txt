@@ -65,7 +65,7 @@ git push -u origin fafreir
 
 - Alguns comandos
 git status
-git add * 
+git add .
 git commit -m "Mensagem"
 git push
 
