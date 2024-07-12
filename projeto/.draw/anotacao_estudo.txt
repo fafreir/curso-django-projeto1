@@ -331,4 +331,38 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 ---------------------------------
 
+SHELL
+python manage.py shell
 
+- Importar o models
+from recipes.models import Recipe, Category
+
+- Retornar todos as categorias
+categories = Category.objects.all()
+
+- Visualizar as QuerySet, que é um iteravel
+categories
+
+- Posso ordenar pelo id
+categories.order_by('id')
+
+- Posso ordenar pelo id decrescente
+categories.order_by("-id")
+
+- Posso ordenar pelo name
+categories.order_by('name')
+
+- Posso utilizar mais de um campo para ordenação
+categories.order_by('id','-name')
+
+- Retornar todos as receitas
+recipes = Recipe.objects.all()
+
+- Posso realizar um for
+for recipe in recipes: print(recipe.id, recipe.title)
+
+- Posso realizar um for, pelo id decrescente
+for recipe in recipes.order_by('-id'): print(recipe.id, recipe.title)
+
+- Retornar somente o primeiro, porém dessa forma não é mais um QuerySet
+recipes.order_by('id').first()
