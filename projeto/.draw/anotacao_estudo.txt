@@ -366,3 +366,53 @@ for recipe in recipes.order_by('-id'): print(recipe.id, recipe.title)
 
 - Retornar somente o primeiro, porém dessa forma não é mais um QuerySet
 recipes.order_by('id').first()
+
+- Verificar os campos
+recipe = recipes.order_by('id').first()
+recipe._meta.get_fields()
+
+- Acessar pelo indice o primeiro campo
+recipe._meta.get_fields()[0]
+
+- Verificar o nome do campo desse indice
+recipe._meta.get_fields()[0].name
+
+- Acessar o valor, tem algumas maneiras
+getattr(recipe, recipe._meta.get_fields()[0].name)
+getattr(recipe, 'id')
+recipe.id
+
+- Criar uma nova categoria, modo lazy
+- Porém só irá aparecer no Django quando salvar, devido ser lazy
+new_category = Category()
+new_category.name = 'nova categoria'
+new_category.save()
+
+- Saber qual id está 
+new_category.id
+
+- Criar uma nova categoria, não lazy
+new_category = Category.objects.create()
+
+new_category = Category.objects.create(name = 'Isso foi criado via objects.create')
+
+- Posso alterar o objeto criado, modo lazy, precisa salvar para aparecer
+new_category.name = "Fui atualizado"
+new_category.save()
+
+- Deletar
+new_category.delete()
+
+- Posso filtrar
+categories = Category.objects.filter(id=5)
+
+- Pegar apenas um, sem o iteravel ou queryset
+categories = Category.objects.fiter(id=5).first()
+
+- Utilizando o get, retorna o mesmo de acima
+- Porém se o que filtro não existir, irá retornar um erro, enquanto filter irá retornar uma lista vazia
+categories = Category.objects.get(id=5)
+
+- Para sair do shell
+quit()
+---------------------------------
