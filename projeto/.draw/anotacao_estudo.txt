@@ -329,6 +329,22 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 - Faça o mesmo com os arquivos estaticos
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+SE QUISER DEIXAR UMA CAIXINHA PARA LIMPAR A IMAGEM
+- Vai precisar alterar no banco
+- blank = True, default =''
+cover = models.ImageField(
+        upload_to='recipes/covers/%Y/%m/%d/', blank=True, default='')
+
+- Necessário realizar um if, para apresentar erro ao abrir a imagem.
+    {% if recipe.cover %}
+        <div class="recipe-cover">
+            <a href="{% url 'recipes:recipe'  recipe.id %}">
+                <img src="{{ recipe.cover.url }}" alt="Temporário">
+            </a>
+        </div>
+    {% endif %}
+
 ---------------------------------
 
 SHELL
@@ -420,3 +436,10 @@ categories = Category.objects.get(id=5)
 - Para sair do shell
 quit()
 ---------------------------------
+
+FILTER
+OBSERVAÇÃO: No Django, consigo acessar campos da foreign key, para isso uso dois underlines __
+- category é a foreign key de Recipe
+- id é o campo que quero acessar de Category
+recipes = Recipe.objects.filter(category__id=category_id).order_by('-id')
+
