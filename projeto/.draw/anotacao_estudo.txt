@@ -443,6 +443,10 @@ categories = Category.objects.fiter(id=5).first()
 - Porém se o que filtro não existir, irá retornar um erro, enquanto filter irá retornar uma lista vazia
 categories = Category.objects.get(id=5)
 
+- Criar usuário
+from django.contrib.auth.models import User
+
+
 - Para sair do shell
 quit()
 ---------------------------------
