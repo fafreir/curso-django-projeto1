@@ -499,3 +499,23 @@ NA HOME, MOSTRAR USUÁRIO COMO DESCONHECIDO
         </span>
 
 ---------------------------------
+
+PEGAR PRIMEIRO RESULTADO DE UMA QUERY E TRANSFORMAR EM UMA STRING
+recipes = Recipe.objects.all().order_by('id') 
+recipes.first().category.name 
+
+- Posso pegar dentro do template, inserir dentro de uma variavel 
+- Utilizando o fstrings
+'title': f'{recipes.first().category.name} - Category '
+
+---------------------------------
+
+NÃO LOCALIZAR A URL
+- Temos algumas opções 
+- O que quero acessar é 'title': f'{recipes.first().category.name} - Category '
+
+1) Utilizar o getattr
+- getattr(objeto, 'espero_localizar', 'caso não encontre')
+category_name = getattr(
+        getattr(recipes.first(), 'category', None), 'name', 'Not found')
+'title': f'{category_name} - Category '
