@@ -519,3 +519,5 @@ NÃO LOCALIZAR A URL
 category_name = getattr(
         getattr(recipes.first(), 'category', None), 'name', 'Not found')
 'title': f'{category_name} - Category '
+
+2) Utilizar o HttpResponse

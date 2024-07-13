@@ -15,11 +15,12 @@ def category(request, category_id):
     recipes = Recipe.objects.filter(
         category__id=category_id, is_published=True).order_by('-id')
 
-    category_name = getattr(
-        getattr(recipes.first(), 'category', None), 'name', 'Not found')
+    if not recipes:
+        return HttpResponse(content='Not found', status=404)
+
     return render(request, 'recipes/pages/category.html', context={
         'recipes': recipes,
-        'title': f'{category_name} - Category '
+        'title': f'{recipes.first().category.name} - Category '
     })
 
 
