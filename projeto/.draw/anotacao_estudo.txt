@@ -263,6 +263,8 @@ class Category(models.Model):
 CHAVE ESTRANGEIRA 
 - models.ForeinKey
 - on_delete=models.SET_NULL, null=True
+- on_delete=models.SET_NULL -> Se APAGAR o campo category, em Recipe, o que foi criado nesse campo ficará NULO
+- null=True -> O campo pode ser NULO
 
 category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
@@ -333,6 +335,7 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 SE QUISER DEIXAR UMA CAIXINHA PARA LIMPAR A IMAGEM
 - Vai precisar alterar no banco
 - blank = True, default =''
+- blank = True -> não valida o formulário
 cover = models.ImageField(
         upload_to='recipes/covers/%Y/%m/%d/', blank=True, default='')
 
@@ -345,6 +348,13 @@ cover = models.ImageField(
         </div>
     {% endif %}
 
+FOREIGN KEY COM BLANK
+- Se excluir o valor ficará nulo
+- Porém se for atualizar qualquer campo, informará que é obrigatório o campo da Foreign Key é obrigatória
+- Para corrigir isso 
+- blank=True, default=None
+category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
 ---------------------------------
 
 SHELL
@@ -438,8 +448,16 @@ quit()
 ---------------------------------
 
 FILTER
-OBSERVAÇÃO: No Django, consigo acessar campos da foreign key, para isso uso dois underlines __
+
+FOREIGN KEY
+No Django, consigo acessar campos da foreign key, para isso uso dois underlines __
 - category é a foreign key de Recipe
 - id é o campo que quero acessar de Category
 recipes = Recipe.objects.filter(category__id=category_id).order_by('-id')
+
+NO PROPRIO CAMPO
+recipes = Recipe.objects.filter(is_published=True).order_by('-id')
+
+
+---------------------------------
 
