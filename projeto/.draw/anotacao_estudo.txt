@@ -445,7 +445,22 @@ categories = Category.objects.get(id=5)
 
 - Criar usuário
 from django.contrib.auth.models import User
+User.objects.create_user(first_name='Maria', last_name='Helena', username='mariahelena', email='maria@email.com', password='123')
 
+- Realizar consultas
+from recipes.models import Recipe
+recipes = Recipe.objects.filter(category__id = 6, is_published = True,).order_by('id') 
+# recipes = Recipe.objects.all().order_by('id') 
+
+- Se tiver uma queryset, com várias receitas, poderia pegar a primeira
+recipes.first()
+
+- Pegar a ultima receita
+recipes.last()
+
+- Pegar a primeira, porém somente como String.
+- Lembrando que Recipe, tem category, como FK e acessa o campo name, de Category
+recipes.first().category.name
 
 - Para sair do shell
 quit()
