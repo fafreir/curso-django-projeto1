@@ -71,6 +71,9 @@ git push
 
 Link: https://github.com/luizomf/curso-django-projeto1
 
+REMOVER ARQUIVO EXISTENTE NO GIT
+- https://pt.stackoverflow.com/questions/113524/como-ignorar-um-arquivo-depois-de-j%C3%A1-estarem-em-um-commit
+git rm -r --cached <diretório>
 -----------------------------------
 
 django-admin x manage
